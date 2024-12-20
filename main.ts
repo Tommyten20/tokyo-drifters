@@ -11,9 +11,9 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, l
     tiles.placeOnTile(p1, tiles.getTileLocation(0, 7))
     tiles.placeOnTile(p2, tiles.getTileLocation(0, 8))
     tiles.placeOnTile(p3, tiles.getTileLocation(0, 9))
-    p1.vy += 10
-    p2.vy += 10
-    p3.vy += 10
+    p1.vx += 10
+    p2.vx += 10
+    p3.vx += 10
 })
 function game3 () {
     scene.setBackgroundColor(0)
@@ -441,6 +441,7 @@ scene.onHitWall(SpriteKind.car, function (sprite, location) {
     game.gameOver(false)
 })
 function one_player_fun () {
+    info.setScore(0)
     scene.setBackgroundColor(0)
     tiles.setCurrentTilemap(tilemap`level2`)
     sprites.destroy(car1)
@@ -479,11 +480,16 @@ function one_player_fun () {
     p1.setVelocity(30, 0)
     controller.player1.moveSprite(p1, 0, 40)
 }
-info.onScore(500, function () {
-    game.gameOver(true)
-})
 sprites.onOverlap(SpriteKind.mouse, SpriteKind.oneplayer, function (sprite, otherSprite) {
     one_player_fun()
+})
+info.onScore(20, function () {
+    game.gameOver(true)
+})
+scene.onOverlapTile(SpriteKind.car, assets.tile`myTile2`, function (sprite, location) {
+    info.changeScoreBy(1)
+    tiles.placeOnTile(p1, tiles.getTileLocation(0, 7))
+    p1.vx += 10
 })
 sprites.onOverlap(SpriteKind.mouse, SpriteKind.ifidant, function (sprite, otherSprite) {
     game2()
